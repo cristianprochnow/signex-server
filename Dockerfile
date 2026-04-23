@@ -25,6 +25,9 @@ RUN apt -y install php8.2-redis
 RUN apt -y install php8.2-memcached
 RUN apt -y install php8.2-xml
 
+# Added Xdebug installation here
+RUN apt -y install php8.2-xdebug
+
 RUN apt -y install libapache2-mod-evasive
 RUN apt -y install mariadb-client
 RUN apt -y install openssl
@@ -37,6 +40,9 @@ RUN a2enmod rewrite
 # php ini
 RUN echo '\nmemory_limit = -1\nmax_execution_time = 0\nupload_max_filesize = 32M\npost_max_size = 32M\nopcache.enable = On\nopcache.validate_timestamps = On\nopcache.memory_consumption = 32\n' >> /etc/php/8.2/cli/php.ini
 RUN echo '\nmemory_limit = -1\nmax_execution_time = 0\nupload_max_filesize = 32M\npost_max_size = 32M\nopcache.enable = On\nopcache.validate_timestamps = On\nopcache.memory_consumption = 32\n' >> /etc/php/8.2/apache2/php.ini
+
+# xdebug configuration
+RUN echo '\nzend_extension=xdebug\nxdebug.mode=debug\nxdebug.start_with_request=yes\nxdebug.client_host=172.17.0.1\nxdebug.remote_cookie_expire_time=1200\n' >> /etc/php/8.2/apache2/php.ini
 
 # apache envvars
 RUN echo 'export PORT=${PORT}' >> /etc/apache2/envvars
